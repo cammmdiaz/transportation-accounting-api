@@ -1,23 +1,22 @@
+import { StatusCodes } from "http-status-codes";
 import { Company } from "../models/company";
-import { companyModel } from "../models/company_model";
 import { CompanyRequest, validateCompany } from "../requests/company_request";
 import { CompanyResponse } from "../responses/company_response";
+import { Request, Response, NextFunction } from "express";
+import { companyService } from "../services/company_service";
 
 class CompanyController {
-    async create(newCompany: {}): Promise<any> {
+    async create(request: Request, response: Response, next: NextFunction) {
         try {
-            const resultValidation = validateCompany(newCompany);
-            if (!resultValidation.success) {
-                // TODO: add exception
-            }
+            const newCompany = request.body ?? {}
 
-            const result: Company = await companyModel.create(newCompany as CompanyRequest);
-            const response: CompanyResponse = { code: result.code, token: result.token }
+            const result: Company = await companyService.create(newCompany as CompanyRequest);
+            const companyResponse: CompanyResponse = { code: result.code, token: result.token }
 
-            return response;
+            response.status(StatusCodes.CREATED).json({ result: companyResponse, code: "SUCCESS" });
         } catch (e) {
-            // TODO: add exception
-        }        
+            next(e)
+        }
     }
 }
 
