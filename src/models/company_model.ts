@@ -14,6 +14,12 @@ class CompanyModel {
 
         return companies.find(c => c.code === code);
     }
+
+    async findByCodeAndPassword(code: string, password: string): Promise<Company | undefined> {
+        const companies: Company[] = await read(PATH) as Company[];
+
+        return companies.find(c => c.code === code && c.password === password);
+    }
 }
 
 export const companyModel = new CompanyModel();
