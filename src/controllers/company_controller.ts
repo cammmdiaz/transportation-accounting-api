@@ -1,26 +1,22 @@
 import { StatusCodes } from "http-status-codes";
-import { CompanyException } from "../exceptions/company_exception";
 import { Company } from "../models/company";
-import { companyModel } from "../models/company_model";
 import { CompanyRequest, validateCompany } from "../requests/company_request";
 import { CompanyResponse } from "../responses/company_response";
+import { Request, Response, NextFunction } from "express";
+import { companyService } from "../services/company_service";
 
 class CompanyController {
-    async create(newCompany: {}): Promise<any> {
-        const resultValidation = validateCompany(newCompany);
-        if (!resultValidation.success) {
-            console.log("VALIDACION NO ES SUCCESS")
-            throw new CompanyException(StatusCodes.BAD_REQUEST, "Incorrect input: " + resultValidation.error);
-        }
-
+    async create(request: Request, response: Response, next: NextFunction) {
         try {
-            const result: Company = await companyModel.create(newCompany as CompanyRequest);
-            const response: CompanyResponse = { code: result.code, token: result.token }
+            const newCompany = request.body ?? {}
 
-            return response;
+            const result: Company = await companyService.create(newCompany as CompanyRequest);
+            const companyResponse: CompanyResponse = { code: result.code, token: result.token }
+
+            response.status(StatusCodes.CREATED).json({ result: companyResponse, code: "SUCCESS" });
         } catch (e) {
-            throw new CompanyException(StatusCodes.INTERNAL_SERVER_ERROR, "Internal error: " + e);
-        }        
+            next(e)
+        }
     }
 }
 

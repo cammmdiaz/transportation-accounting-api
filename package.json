@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd ./src/index.ts"
+    "dev": "tsnd ./src/index.ts",
+    "server": "ts-node ./src/index.ts",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",

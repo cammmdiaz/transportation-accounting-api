@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-export class CompanyException extends Error {
+export class GeneralError extends Error {
     private statusCode: number;
     public message: string;
 
@@ -9,11 +9,7 @@ export class CompanyException extends Error {
         this.statusCode = statusCode;
         this.message = message;
 
-        if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, CompanyException);
-        }
-
-        // Object.setPrototypeOf(this, CompanyException.prototype);
+        Object.setPrototypeOf(this, GeneralError.prototype);
     }
 
     getStatusCode(): number {
