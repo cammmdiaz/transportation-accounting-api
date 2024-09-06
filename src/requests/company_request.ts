@@ -4,11 +4,11 @@ const companyRequestSchema = z.object({
     name: z.string({
             required_error: "Name is required",
         })
-        .length(4),
+        .min(4, { message: "Name should have to minimum 4 characters" }),
     password: z.string({
         required_error: "Password is required",
     })
-    .length(6),
+    .min(6, { message: "Name should have to minimum 6 characters" }),
 });
 
 export interface CompanyRequest {
