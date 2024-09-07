@@ -1,51 +1,52 @@
-export enum CostType {
-    FIXED,
-    VARIABLE,
-}
+import { FixedCost, UnitType, VariableCost } from "../utils/entity";
+import { z } from "zod";
 
-export enum ResourceType {
-    TRUCK,
-    MACHINE,
-    DRIVER,
-    OTHER,
-}
+const resourceTypeSchema = z.enum(["TRUCK", "MACHINE", "DRIVER", "OTHER"]); // ResourceType: 'TRUCK', 'MACHINE', 'DRIVER', 'OTHER'
+const unitTypeSchema = z.enum(["TRIP", "HOUR"]); // UnitType: 'TRIP' o 'HOUR'
 
-export enum UnidType {
-    TRIP,
-    HOUR,
-}
+const costPerResourceSchema = z.object({
+  amount: z.number().nonnegative(),
+  description: z.string(),
+});
 
-export interface Cost {
-    description: string;
-    costType: CostType,
-    resourceType: ResourceType,
-}
+const costSchema = z.object({
+  description: z.string(),
+  resourceType: resourceTypeSchema,
+});
 
-export interface CostPerResource {
-    amount: number;
-    description: string;
-}
+const variableCostSchema = costSchema.extend({
+  costs: z.array(costPerResourceSchema),
+});
 
-export interface VariableCost extends Cost {
-    unidType: UnidType;
-    costs: CostPerResource[];
-}
+const fixedCostSchema = costSchema.extend({
+  amount: z.number().nonnegative(),
+});
 
-export interface FixedCost extends Cost {
-    amount: number;
-}
+const budgetRequestSchema = z.object({
+  fixedCosts: z.array(fixedCostSchema),
+  variableCosts: z.array(variableCostSchema),
+  hoursPerDay: z.number().positive(),
+  quantityTripsPerDay: z.number().positive().optional(),
+  totalDays: z.number().positive(),
+  unitType: unitTypeSchema,
+  profitPercentage: z.number().min(0).max(100),
+});
 
 export interface BudgetRequest {
     fixedCosts: FixedCost[];
-    variableCost: VariableCost[];
+    variableCosts: VariableCost[];
     hoursPerDay: number;
     quantityTripsPerDay?: number;
     totalDays: number;
-    unidType: UnidType;
+    unitType: UnitType;
     profitPercentage: number;
 }
 
 export interface FinalBudgetRequest extends BudgetRequest {
     from: Date;
     to: Date;
+}
+
+export function validateBudgetData(data: {}) {
+    return budgetRequestSchema.safeParse(data);
 }
