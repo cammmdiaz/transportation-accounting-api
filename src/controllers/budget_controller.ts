@@ -7,7 +7,7 @@ import { GeneralError } from "../errors/general_error";
 import { BudgetResponse } from "../responses/budget_response";
 
 class BudgetController {
-    async createDraft(request: Request, response: Response, next: NextFunction) {
+    create(request: Request, response: Response, next: NextFunction) {
         try {
             const schema = {
                 fixedCosts: request.body.fixedCosts,
@@ -36,14 +36,6 @@ class BudgetController {
             }
 
             response.status(StatusCodes.OK).json({ result: budgetResponse, code: "SUCCESS" });
-        } catch (e) {
-            next(e)
-        }
-    }
-
-    async create(request: Request, response: Response, next: NextFunction) {
-        try {
-
         } catch (e) {
             next(e)
         }

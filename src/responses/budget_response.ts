@@ -9,8 +9,3 @@ export interface BudgetResponse {
     budgetFinalAmount: number;
     unitType: UnitType;
 }
-
-export interface FinalBudgetResponse extends BudgetResponse {
-    from: Date;
-    to: Date;
-}

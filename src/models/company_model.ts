@@ -1,7 +1,6 @@
 import { append, read } from "../database/database_file";
 import { Company } from "./company";
 
-
 const PATH = "./company.json";
 
 class CompanyModel {

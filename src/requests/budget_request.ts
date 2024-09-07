@@ -22,7 +22,7 @@ const fixedCostSchema = costSchema.extend({
   amount: z.number().nonnegative(),
 });
 
-const budgetRequestSchema = z.object({
+export const budgetRequestSchema = z.object({
   fixedCosts: z.array(fixedCostSchema),
   variableCosts: z.array(variableCostSchema),
   hoursPerDay: z.number().positive(),
@@ -40,11 +40,6 @@ export interface BudgetRequest {
     totalDays: number;
     unitType: UnitType;
     profitPercentage: number;
-}
-
-export interface FinalBudgetRequest extends BudgetRequest {
-    from: Date;
-    to: Date;
 }
 
 export function validateBudgetData(data: {}) {

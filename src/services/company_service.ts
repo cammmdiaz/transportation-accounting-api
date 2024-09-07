@@ -1,7 +1,5 @@
-import { StatusCodes } from "http-status-codes";
-import { GeneralError } from "../errors/general_error";
 import { Company } from "../models/company";
-import { CompanyRequest, validateGetTokenData } from "../requests/company_request";
+import { CompanyRequest } from "../requests/company_request";
 import { companyModel } from "../models/company_model";
 import { v4 as uuidv4 } from "uuid";
 
