@@ -1,14 +1,20 @@
 import { StatusCodes } from "http-status-codes";
 import { Company } from "../models/company";
-import { CompanyRequest } from "../requests/company_request";
+import { CompanyRequest, validateCompany, validateGetTokenData } from "../requests/company_request";
 import { CompanyResponse } from "../responses/company_response";
 import { Request, Response, NextFunction } from "express";
 import { companyService } from "../services/company_service";
+import { GeneralError } from "../errors/general_error";
 
 class CompanyController {
     async create(request: Request, response: Response, next: NextFunction) {
         try {
             const newCompany = request.body ?? {};
+
+            const resultValidation = validateCompany(newCompany)
+            if (!resultValidation.success) {
+                throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input: " + JSON.stringify(resultValidation.error));
+            }
 
             const result: Company = await companyService.create(newCompany as CompanyRequest);
             const companyResponse: CompanyResponse = { code: result.code, token: result.token };
@@ -24,6 +30,11 @@ class CompanyController {
             const codeQuery = request.query?.code ?? "";
             const code = codeQuery as string;
             const password = request.header("password") ?? "";
+
+            const resultValidation = validateGetTokenData({code, password});
+            if (!resultValidation.success) {
+                throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect data: " + JSON.stringify(resultValidation.error));
+            }
 
             const existingCompany: Company | undefined = await companyService.getCompanyByCode({code, password});
 

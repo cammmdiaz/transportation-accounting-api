@@ -1,4 +1,4 @@
-import { UnidType } from "../requests/budget_request";
+import { UnitType } from "../utils/entity";
 
 // TODO: see if we can return all the detail for each cost
 export interface BudgetResponse {
@@ -7,7 +7,7 @@ export interface BudgetResponse {
     totalCost: number;
     profit: number;
     budgetFinalAmount: number;
-    unidType: UnidType;
+    unitType: UnitType;
 }
 
 export interface FinalBudgetResponse extends BudgetResponse {
