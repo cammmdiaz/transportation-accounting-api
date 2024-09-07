@@ -9,7 +9,6 @@ import { BudgetResponse } from "../responses/budget_response";
 class BudgetController {
     async createDraft(request: Request, response: Response, next: NextFunction) {
         try {
-            // todo missing validation
             const schema = {
                 fixedCosts: request.body.fixedCosts,
                 variableCosts: request.body.variableCosts,
