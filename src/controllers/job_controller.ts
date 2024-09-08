@@ -17,12 +17,14 @@ class JobController {
                 throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input: " + JSON.stringify(resultValidation.error));
             }
 
+            const companyCode: string = request.header("X-Company-Code") ?? "";
             const jobRequest: JobRequest = input as JobRequest;
+
             const result: {
                 job?: Job,
                 result?: string,
                 jobsOverlapping?: any
-            } = await jobService.create(jobRequest);
+            } = await jobService.create(jobRequest, companyCode);
             let budgetResponse: BudgetResponse | undefined = undefined;
             if (result.result !== "ERROR" && result.job) {
                 budgetResponse = {
@@ -36,6 +38,7 @@ class JobController {
             }
 
             const jobResponse: JobResponse = {
+                id: result.job?.id,
                 from: result.job?.from,
                 to: result.job?.to,
                 bugdet: budgetResponse,
@@ -44,6 +47,31 @@ class JobController {
             };
 
             response.status(StatusCodes.CREATED).json({ result: jobResponse, code: "SUCCESS" });
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getById(request: Request, response: Response, next: NextFunction) {
+        try {
+            const jobId: string = request.params?.id ?? "";
+            const companyCode: string = request.header("X-Company-Code") ?? "";
+
+            const result: Job | undefined = await jobService.getById(jobId, companyCode);
+
+            response.status(StatusCodes.OK).json({ result, code: "SUCCESS" });
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getAll(request: Request, response: Response, next: NextFunction) {
+        try {
+            const companyCode: string = request.header("X-Company-Code") ?? "";
+
+            const result: Job[] = await jobService.getAll(companyCode);
+
+            response.status(StatusCodes.OK).json({ result, code: "SUCCESS" });
         } catch (e) {
             next(e)
         }
