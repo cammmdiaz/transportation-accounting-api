@@ -36,7 +36,7 @@ class CompanyController {
                 throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect data: " + JSON.stringify(resultValidation.error));
             }
 
-            const existingCompany: Company | undefined = await companyService.getCompanyByCode({code, password});
+            const existingCompany: Company | undefined = await companyService.getCompanyByCodeAndPassword({code, password});
 
             response.status(StatusCodes.OK).json({ result: { token: existingCompany?.token }, code: "SUCCESS" });
         } catch (e) {
