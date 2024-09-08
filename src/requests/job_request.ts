@@ -7,8 +7,10 @@ function isValidDateFormat(dateString: string): boolean {
   };
   
 function isFutureDate(dateString: string): boolean {
-    const date = new Date(dateString);
-    return date > new Date();
+    const date = new Date(`${dateString}T00:00:00`);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    return date >= currentDate;
 };
 
 const jobRequestSchema = z
@@ -19,7 +21,7 @@ const jobRequestSchema = z
             message: "The 'from' date must be in 'YYYY-MM-DD' format.",
         })
         .refine(isFutureDate, {
-            message: "The 'from' date should be greater than the current date.",
+            message: "The 'from' date should be greater or equals than the current date.",
         }),
         to: z
         .string()
@@ -27,7 +29,7 @@ const jobRequestSchema = z
             message: "The 'to' date must be in 'YYYY-MM-DD' format.",
         })
         .refine(isFutureDate, {
-            message: "The 'to' date should be greater than the current date.",
+            message: "The 'to' date should be greater or equals than the current date.",
         }),
         budget: budgetRequestSchema,
         forceCreate: z.boolean().optional(),

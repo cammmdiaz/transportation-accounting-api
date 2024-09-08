@@ -9,22 +9,14 @@ import { BudgetResponse } from "../responses/budget_response";
 class BudgetController {
     create(request: Request, response: Response, next: NextFunction) {
         try {
-            const schema = {
-                fixedCosts: request.body.fixedCosts,
-                variableCosts: request.body.variableCosts,
-                hoursPerDay: request.body.hoursPerDay,
-                quantityTripsPerDay: request.body.quantityTripsPerDay,
-                totalDays: request.body.totalDays,
-                unitType: request.body.unitType,
-                profitPercentage: request.body.profitPercentage,
-            }
+            const input = request.body
 
-            const resultValidation = validateBudgetData(schema)
+            const resultValidation = validateBudgetData(input)
             if (!resultValidation.success) {
                 throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input: " + JSON.stringify(resultValidation.error));
             }
 
-            const budgetRequest: BudgetRequest = schema as BudgetRequest;
+            const budgetRequest: BudgetRequest = input as BudgetRequest;
             const budget: Budget = budgetService.createDraft(budgetRequest);
             const budgetResponse: BudgetResponse = {
                 amountPerVariableCost: budget.amountPerVariableCost,

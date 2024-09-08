@@ -10,27 +10,14 @@ import { BudgetResponse } from "../responses/budget_response";
 class JobController {
     async create(request: Request, response: Response, next: NextFunction) {
         try {
-            const schema = {
-                from: request.body.from,
-                to: request.body.to,
-                budget: {
-                    fixedCosts: request.body.fixedCosts,
-                    variableCosts: request.body.variableCosts,
-                    hoursPerDay: request.body.hoursPerDay,
-                    quantityTripsPerDay: request.body.quantityTripsPerDay,
-                    totalDays: request.body.totalDays,
-                    unitType: request.body.unitType,
-                    profitPercentage: request.body.profitPercentage,
-                },
-                forceCreate: request.body.forceCreate,
-            }
+            const input = request.body;
 
-            const resultValidation = validateJobData(schema)
+            const resultValidation = validateJobData(input)
             if (!resultValidation.success) {
                 throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input: " + JSON.stringify(resultValidation.error));
             }
 
-            const jobRequest: JobRequest = schema as JobRequest;
+            const jobRequest: JobRequest = input as JobRequest;
             const result: {
                 job?: Job,
                 result?: string,
