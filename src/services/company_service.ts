@@ -20,7 +20,7 @@ class CompanyService {
 
             const token = uuidv4();
 
-            const companyToSave: Company = { ...companyToCreate, code, token };
+            const companyToSave: Company = { ...companyToCreate, code, token, id: uuidv4() };
 
             await companyModel.create(companyToSave);
 
