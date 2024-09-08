@@ -2,15 +2,20 @@ import { Company } from "../models/company";
 import { CompanyRequest } from "../requests/company_request";
 import { companyModel } from "../models/company_model";
 import { v4 as uuidv4 } from "uuid";
+import { StatusCodes } from "http-status-codes";
+import { GeneralError } from "../errors/general_error";
 
 class CompanyService {
     async create(companyToCreate: CompanyRequest) {
         try {
             const code: string = this.createCompanyCode(companyToCreate.name);
             const existingCompany: Company | undefined = await companyModel.findByCode(code);
-            // TODO: then check if we need to include the password (or not => update the next service)
             if (existingCompany) {
-                return existingCompany;
+                if (existingCompany.password === companyToCreate.password) {
+                    return existingCompany;
+                }
+                
+                throw new GeneralError(StatusCodes.BAD_REQUEST, "Invalid company name.");
             }
 
             const token = uuidv4();
@@ -25,9 +30,17 @@ class CompanyService {
         }
     }
 
-    async getCompanyByCode(data: {code: string, password: string}): Promise<Company | undefined> {
+    async getCompanyByCodeAndPassword(data: {code: string, password: string}): Promise<Company | undefined> {
         try {
             return await companyModel.findByCodeAndPassword(data.code, data.password);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getCompanyByCode(code: string): Promise<Company | undefined> {
+        try {
+            return await companyModel.findByCode(code);
         } catch (error) {
             throw error;
         }
