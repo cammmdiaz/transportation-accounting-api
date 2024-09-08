@@ -68,7 +68,7 @@ class BudgetService {
         return data.variableCosts.reduce(
             (accumulator, item) => accumulator + (
                 item.costs.reduce((acc, i) => acc + i.amount, 0)
-            ), 0) * data.totalDays;
+            ), 0) * data.hoursPerDay * data.totalDays;
     }
 }
 
