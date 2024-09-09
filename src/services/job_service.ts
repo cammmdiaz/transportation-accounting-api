@@ -9,6 +9,7 @@ import { budgetService } from "./budget_service";
 import { v4 as uuidv4 } from "uuid";
 import { companyService } from "./company_service";
 import { GeneralError } from "../errors/general_error";
+import { ResponseType } from "../utils/general_type";
 
 class JobService {
     async create(jobRequest: JobRequest, companyCode: string): Promise<{
@@ -26,11 +27,11 @@ class JobService {
             if (jobs.length > 0) {
                 const existingJobs: JobResponse[] = jobs.map(job => ({
                     ...job,
-                    result: "SUCCESS",
+                    result: ResponseType.SUCCESS,
                 }));
 
                 return {
-                    result: "ERROR",
+                    result: ResponseType.ERROR,
                     jobsOverlapping: existingJobs,
                 };
             }

@@ -1,6 +1,5 @@
 import { UnitType } from "../utils/entity";
 
-// TODO: see if we can return all the detail for each cost
 export interface BudgetResponse {
     amountPerVariableCost: number;
     amountPerFixedCost: number;

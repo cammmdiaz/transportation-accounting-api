@@ -5,6 +5,7 @@ import { Budget } from "../utils/entity";
 import { StatusCodes } from "http-status-codes";
 import { GeneralError } from "../errors/general_error";
 import { BudgetResponse } from "../responses/budget_response";
+import { ResponseType } from "../utils/general_type";
 
 class BudgetController {
     create(request: Request, response: Response, next: NextFunction) {
@@ -13,7 +14,7 @@ class BudgetController {
 
             const resultValidation = validateBudgetData(input)
             if (!resultValidation.success) {
-                throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input: " + JSON.stringify(resultValidation.error));
+                throw new GeneralError(StatusCodes.BAD_REQUEST, "Incorrect input for budget: " + JSON.stringify(resultValidation.error));
             }
 
             const budgetRequest: BudgetRequest = input as BudgetRequest;
@@ -27,7 +28,7 @@ class BudgetController {
                 unitType: budgetRequest.unitType
             }
 
-            response.status(StatusCodes.OK).json({ result: budgetResponse, code: "SUCCESS" });
+            response.status(StatusCodes.OK).json({ result: budgetResponse, code: ResponseType.SUCCESS });
         } catch (e) {
             next(e)
         }
