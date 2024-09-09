@@ -7,3 +7,7 @@ dist
 company.json
 
 job.json
+
+package-lock.json
+
+.env

@@ -31,5 +31,5 @@ export async function read(path: string): Promise<any[]> {
     }
 
     const entitiesJson = await fs.readFile(path, ENCODING)
-    return JSON.parse(entitiesJson) as any[]
+    return entitiesJson === "" ? [] : JSON.parse(entitiesJson) as any[]
 }
