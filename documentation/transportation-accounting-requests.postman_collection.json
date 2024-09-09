@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "95f9ecd9-a9e8-4d8e-9e2d-d4ef0aa35514",
+		"name": "transportation-accounting-requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "525978"
+	},
+	"item": [
+		{
+			"name": "New company",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"diaz tp final - 1\",\n    \"password\": \"diaz 12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/company"
+			},
+			"response": []
+		},
+		{
+			"name": "Get token by company",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Password",
+						"value": "diaz 12345",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/company/token?code=DIAZTPFINAL-1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"company",
+						"token"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "DIAZTPFINAL-1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Budget by trip",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					},
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fixedCosts\": [\n        {\n            \"amount\": 10,\n            \"description\": \"costo fijo\",\n            \"resourceType\": \"OTHER\"\n        }\n    ],\n    \"variableCosts\": [\n        {\n            \"costs\": [\n                {\n                    \"amount\": 90,\n                    \"description\": \"un costo\"\n                }\n            ],\n            \"resourceType\": \"TRUCK\",\n            \"description\": \"costo de los camiones\"\n        }\n    ],\n    \"hoursPerDay\": 8,\n    \"totalDays\": 1,\n    \"unitType\": \"TRIP\",\n    \"profitPercentage\": 30,\n    \"quantityTripsPerDay\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/budget"
+			},
+			"response": []
+		},
+		{
+			"name": "Budget by hour",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					},
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fixedCosts\": [\n        {\n            \"amount\": 10,\n            \"description\": \"costo fijo\",\n            \"resourceType\": \"OTHER\"\n        }\n    ],\n    \"variableCosts\": [\n        {\n            \"costs\": [\n                {\n                    \"amount\": 90,\n                    \"description\": \"un costo\"\n                }\n            ],\n            \"resourceType\": \"TRUCK\",\n            \"description\": \"costo de los camiones\"\n        }\n    ],\n    \"hoursPerDay\": 8,\n    \"totalDays\": 1,\n    \"unitType\": \"HOUR\",\n    \"profitPercentage\": 30\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/budget"
+			},
+			"response": []
+		},
+		{
+			"name": "Create job by hour without forceCreate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-09-09\",\n    \"to\": \"2024-10-08\",\n    \"budget\": {\n        \"fixedCosts\": [\n            {\n                \"amount\": 10,\n                \"description\": \"costo fijo\",\n                \"resourceType\": \"OTHER\"\n            }\n        ],\n        \"variableCosts\": [\n            {\n                \"costs\": [\n                    {\n                        \"amount\": 90,\n                        \"description\": \"un costo\"\n                    }\n                ],\n                \"resourceType\": \"TRUCK\",\n                \"description\": \"costo de los camiones\"\n            }\n        ],\n        \"hoursPerDay\": 8,\n        \"totalDays\": 1,\n        \"unitType\": \"HOUR\",\n        \"profitPercentage\": 30\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/job"
+			},
+			"response": []
+		},
+		{
+			"name": "Create job by hour with forceCreate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-09-09\",\n    \"to\": \"2024-10-08\",\n    \"budget\": {\n        \"fixedCosts\": [\n            {\n                \"amount\": 10,\n                \"description\": \"costo fijo\",\n                \"resourceType\": \"OTHER\"\n            }\n        ],\n        \"variableCosts\": [\n            {\n                \"costs\": [\n                    {\n                        \"amount\": 90,\n                        \"description\": \"un costo\"\n                    }\n                ],\n                \"resourceType\": \"TRUCK\",\n                \"description\": \"costo de los camiones\"\n            }\n        ],\n        \"hoursPerDay\": 8,\n        \"totalDays\": 1,\n        \"unitType\": \"HOUR\",\n        \"profitPercentage\": 30\n    },\n    \"forceCreate\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/job"
+			},
+			"response": []
+		},
+		{
+			"name": "Create job by trip without forceCreate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-11-09\",\n    \"to\": \"2024-12-08\",\n    \"budget\": {\n        \"fixedCosts\": [\n            {\n                \"amount\": 10,\n                \"description\": \"costo fijo\",\n                \"resourceType\": \"OTHER\"\n            }\n        ],\n        \"variableCosts\": [\n            {\n                \"costs\": [\n                    {\n                        \"amount\": 90,\n                        \"description\": \"un costo\"\n                    }\n                ],\n                \"resourceType\": \"TRUCK\",\n                \"description\": \"costo de los camiones\"\n            }\n        ],\n        \"hoursPerDay\": 8,\n        \"totalDays\": 1,\n        \"unitType\": \"TRIP\",\n        \"profitPercentage\": 30,\n        \"quantityTripsPerDay\": 5\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/job"
+			},
+			"response": []
+		},
+		{
+			"name": "Create job by trip with forceCreate Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-11-09\",\n    \"to\": \"2024-12-08\",\n    \"budget\": {\n        \"fixedCosts\": [\n            {\n                \"amount\": 10,\n                \"description\": \"costo fijo\",\n                \"resourceType\": \"OTHER\"\n            }\n        ],\n        \"variableCosts\": [\n            {\n                \"costs\": [\n                    {\n                        \"amount\": 90,\n                        \"description\": \"un costo\"\n                    }\n                ],\n                \"resourceType\": \"TRUCK\",\n                \"description\": \"costo de los camiones\"\n            }\n        ],\n        \"hoursPerDay\": 8,\n        \"totalDays\": 1,\n        \"unitType\": \"TRIP\",\n        \"profitPercentage\": 30,\n        \"quantityTripsPerDay\": 5\n    },\n    \"forceCreate\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/job"
+			},
+			"response": []
+		},
+		{
+			"name": "Create job by trip without forceCreate return error",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "default"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2024-11-09\",\n    \"to\": \"2024-12-08\",\n    \"budget\": {\n        \"fixedCosts\": [\n            {\n                \"amount\": 10,\n                \"description\": \"costo fijo\",\n                \"resourceType\": \"OTHER\"\n            }\n        ],\n        \"variableCosts\": [\n            {\n                \"costs\": [\n                    {\n                        \"amount\": 90,\n                        \"description\": \"un costo\"\n                    }\n                ],\n                \"resourceType\": \"TRUCK\",\n                \"description\": \"costo de los camiones\"\n            }\n        ],\n        \"hoursPerDay\": 8,\n        \"totalDays\": 1,\n        \"unitType\": \"TRIP\",\n        \"profitPercentage\": 30,\n        \"quantityTripsPerDay\": 5\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/job"
+			},
+			"response": []
+		},
+		{
+			"name": "Get job by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "text"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/api/job/8cedd690-d665-43ca-b1e6-2d11101af5f4"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all job",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Company-Code",
+						"value": "DIAZTPFINAL-1",
+						"type": "text"
+					},
+					{
+						"key": "X-Authorization",
+						"value": "13c6cf7b-1762-4421-bd1a-d6e479cfd172",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8080/api/job/all"
+			},
+			"response": []
+		}
+	]
+}
