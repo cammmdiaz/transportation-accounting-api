@@ -6,8 +6,8 @@ export enum ResourceType {
 }
 
 export enum UnitType {
-    TRIP,
-    HOUR,
+    TRIP = "TRIP",
+    HOUR = "HOUR",
 }
 
 export interface Cost {
