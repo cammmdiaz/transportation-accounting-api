@@ -46,7 +46,7 @@ class JobController {
                 jobsOverlapping: result.jobsOverlapping,
             };
 
-            response.status(StatusCodes.CREATED).json({ result: jobResponse, code: "SUCCESS" });
+            response.status(result.jobsOverlapping ? StatusCodes.OK : StatusCodes.CREATED).json({ result: jobResponse, code: "SUCCESS" });
         } catch (e) {
             next(e)
         }
