@@ -2,7 +2,7 @@
 
 # Introducción, detalle funcional y técnico
 
-Toda la información se encuentra en este [documento pdf] (./documentation/Transportation-accounting-api-document.pdf).
+Toda la información se encuentra en este [documento pdf](./documentation/Transportation-accounting-api-document.pdf).
 También se tien una [colección de Postman](./documentation/transportation-accounting-requests.postman_collection.json) con todos los request para probar.
 
 
